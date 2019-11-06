@@ -21,6 +21,9 @@
 
 #include <winrt/Microsoft.Holographic.AppRemoting.h>
 
+#include "UdpServer.h"
+
+using namespace winrt::Windows::UI::Input::Spatial;
 
 
 class SamplePlayerMain : public winrt::implements<
@@ -58,6 +61,10 @@ public:
     // IDeviceNotify methods
     void OnDeviceLost() override;
     void OnDeviceRestored() override;
+
+    // Input
+    void OnSourcePressed(SpatialInteractionManager const& sender, SpatialInteractionSourceEventArgs const& args);
+    void OnSourceUpdated(SpatialInteractionManager const& sender, SpatialInteractionSourceEventArgs const& args);
 
 private:
     // Options for the player which can passed in via activation arguments
@@ -136,6 +143,9 @@ private:
     // Accumulates and provides remote frame statistics
     PlayerFrameStatisticsHelper m_statisticsHelper;
     ErrorHelper m_errorHelper;
+
+    // UDP socket for missing controller data
+    UdpServer m_udpServer;
 
 #ifdef ENABLE_CUSTOM_DATA_CHANNEL_SAMPLE
     std::mutex m_customDataChannelLock;

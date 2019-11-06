@@ -212,7 +212,7 @@ void SampleHostWindowUWP::OnViewActivated(CoreApplicationView const& sender, IAc
     using namespace Activation;
     using namespace Core;
 
-    std::wstring host = L"127.0.0.1";
+    std::wstring host = L"10.89.204.92";
     int32_t port = 8265;
 
     if (activationArgs != nullptr)

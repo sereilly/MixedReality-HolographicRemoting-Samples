@@ -8,19 +8,31 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
 		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
 		RelWithDebInfo|ARM = RelWithDebInfo|ARM
+		RelWithDebInfo|x64 = RelWithDebInfo|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Debug|ARM.ActiveCfg = Debug|ARM
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Debug|ARM.Build.0 = Debug|ARM
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Debug|ARM.Deploy.0 = Debug|ARM
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Debug|x64.ActiveCfg = x64|x64
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Debug|x64.Build.0 = Debug|x64
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Debug|x64.Deploy.0 = Debug|x64
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Release|ARM.ActiveCfg = Release|ARM
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Release|ARM.Build.0 = Release|ARM
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Release|ARM.Deploy.0 = Release|ARM
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Release|x64.ActiveCfg = Release|x64
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Release|x64.Build.0 = Release|x64
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.Release|x64.Deploy.0 = Release|x64
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.RelWithDebInfo|ARM.ActiveCfg = RelWithDebInfo|ARM
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.RelWithDebInfo|ARM.Build.0 = RelWithDebInfo|ARM
 		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.RelWithDebInfo|ARM.Deploy.0 = RelWithDebInfo|ARM
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{B26EEC5F-BBFF-3973-A459-AD3E5A33EF70}.RelWithDebInfo|x64.Deploy.0 = RelWithDebInfo|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -29,4 +41,3 @@ Global
 		SolutionGuid = {3BBCE82D-2F1E-41BA-87D5-26E8C41FFA4B}
 	EndGlobalSection
 EndGlobal
-

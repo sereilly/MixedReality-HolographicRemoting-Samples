@@ -291,6 +291,8 @@ void SamplePlayerMain::Initialize(const CoreApplicationView& applicationView)
     // Register to the PlayerContext connection events
     m_playerContext.OnConnected({this, &SamplePlayerMain::OnConnected});
     m_playerContext.OnDisconnected({this, &SamplePlayerMain::OnDisconnected});
+
+    m_udpServer.StartServer(L"1337");
 }
 
 void SamplePlayerMain::SetWindow(const CoreWindow& window)
@@ -583,8 +585,8 @@ void SamplePlayerMain::UpdateStatusDisplay()
         if (m_playerContext.ConnectionState() != ConnectionState::Connected)
         {
             StatusDisplay::Line lines[] = {
-                StatusDisplay::Line{L"Sample Holographic Remoting Player", StatusDisplay::LargeBold, StatusDisplay::White, 1.2f},
-                StatusDisplay::Line{L"This app is a sample companion for Holographic Remoting apps.\r\n"
+                StatusDisplay::Line{L"6DoF Holographic Remoting Player", StatusDisplay::LargeBold, StatusDisplay::White, 1.2f},
+                StatusDisplay::Line{L"This app will send 6DoF inputs to the PC. \r\n"
                                     L"Connect from a compatible app to begin.",
                                     StatusDisplay::Small,
                                     StatusDisplay::White,
@@ -697,6 +699,10 @@ void SamplePlayerMain::OnViewActivated(const CoreApplicationView& sender, const 
 {
     PlayerOptions playerOptionsNew = ParseActivationArgs(activationArgs);
 
+        auto interactionManager = SpatialInteractionManager::GetForCurrentView();
+		interactionManager.SourcePressed({ this, &SamplePlayerMain::OnSourcePressed });
+        interactionManager.SourceUpdated({this, &SamplePlayerMain::OnSourceUpdated });
+
     bool connectionOptionsChanged =
         (playerOptionsNew.m_listen != m_playerOptions.m_listen || playerOptionsNew.m_hostname != m_playerOptions.m_hostname ||
          playerOptionsNew.m_port != m_playerOptions.m_port);
@@ -756,4 +762,48 @@ int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
     winrt::init_apartment();
     CoreApplication::Run(SamplePlayerMain());
     return 0;
+}
+
+void SamplePlayerMain::OnSourcePressed(SpatialInteractionManager const& sender, SpatialInteractionSourceEventArgs const& args)
+{
+    auto pressKind = args.PressKind();
+	if (pressKind == SpatialInteractionPressKind::Select)
+	{
+		OutputDebugString(L"Pressed");
+	}
+}
+
+#pragma pack(push, 1)
+struct Payload
+{
+    float thumbstickX;
+    float thumbstickY;
+    float touchpadX;
+    float touchpadY;
+    bool thumbstickPressed;
+    bool touchpadPressed;
+    bool graspPressed;
+    bool selectPressed;
+};
+#pragma pack(pop)
+
+void SamplePlayerMain::OnSourceUpdated(SpatialInteractionManager const& sender, SpatialInteractionSourceEventArgs const& args)
+{
+    auto controllerProps = args.State().ControllerProperties();
+
+    // Fill payload with controller values
+    Payload payload;
+    payload.thumbstickX = (float)controllerProps.ThumbstickX();
+    payload.thumbstickY = (float)controllerProps.ThumbstickY();
+    payload.touchpadX = (float)controllerProps.TouchpadX();
+    payload.touchpadY = (float)controllerProps.TouchpadY();
+    payload.touchpadPressed = controllerProps.IsTouchpadPressed();
+    payload.thumbstickPressed = controllerProps.IsThumbstickPressed();
+    payload.graspPressed = args.State().IsGrasped();
+    payload.selectPressed = args.State().IsSelectPressed();
+
+    // Convert payload to byte array and send
+    std::uint8_t* start = (std::uint8_t*)&payload;
+    std::vector<std::uint8_t> payloadBuffer(start, start + sizeof(payload));
+    m_udpServer.Send(payloadBuffer);
 }
